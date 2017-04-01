@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.pocketmusic.fastscroll.FastScroller;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.Project;
@@ -53,6 +54,7 @@ public class PocketMusicActivity extends BaseActivity {
 
 	private Project project;
 	private TactScrollRecyclerView tactScroller;
+	private FastScroller fastScroller;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +83,9 @@ public class PocketMusicActivity extends BaseActivity {
 
 		tactScroller = (TactScrollRecyclerView) findViewById(R.id.tact_scroller);
 		tactScroller.setTrack(project.getTrack("Track 1"), project.getBeatsPerMinute());
+
+		fastScroller = (FastScroller) findViewById(R.id.fastscroll);
+		fastScroller.setRecyclerView(tactScroller);
 
 		new ScrollController(content, tactScroller, project.getBeatsPerMinute());
 	}

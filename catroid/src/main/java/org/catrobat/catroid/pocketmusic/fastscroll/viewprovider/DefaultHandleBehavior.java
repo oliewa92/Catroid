@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.pocketmusic.fastscroll.viewprovider;
 
-public class DefaultBubbleBehavior implements ViewBehavior {
+public class DefaultHandleBehavior implements ViewBehavior {
 
 	private final VisibilityAnimationManager animationManager;
 
-	public DefaultBubbleBehavior(VisibilityAnimationManager animationManager) {
+	public DefaultHandleBehavior(VisibilityAnimationManager animationManager) {
 		this.animationManager = animationManager;
 	}
 
@@ -43,11 +43,11 @@ public class DefaultBubbleBehavior implements ViewBehavior {
 
 	@Override
 	public void onScrollStarted() {
-
+		animationManager.show();
 	}
 
 	@Override
 	public void onScrollFinished() {
-
+		animationManager.hide();
 	}
 }
