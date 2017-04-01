@@ -18,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.	If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.catrobat.catroid.pocketmusic.fastscroll;
@@ -130,7 +130,7 @@ public class FastScroller extends LinearLayout {
 
     /**
      * Set the orientation of the {@link FastScroller}. The orientation of the {@link FastScroller}
-     * should generally match the orientation of connected  {@link RecyclerView} for good UX but it's not enforced.
+     * should generally match the orientation of connected	{@link RecyclerView} for good UX but it's not enforced.
      * Note: This method is overridden from {@link LinearLayout#setOrientation(int)} but for {@link FastScroller}
      * it has a totally different meaning.
      * @param orientation of the {@link FastScroller}. {@link #VERTICAL} or {@link #HORIZONTAL}
@@ -249,10 +249,10 @@ public class FastScroller extends LinearLayout {
     private void invalidateVisibility() {
         if(
                 recyclerView.getAdapter()==null ||
-                recyclerView.getAdapter().getItemCount()==0 ||
-                recyclerView.getChildAt(0)==null ||
-                isRecyclerViewNotScrollable() ||
-                maxVisibility != View.VISIBLE
+                        recyclerView.getAdapter().getItemCount()==0 ||
+                        recyclerView.getChildAt(0)==null ||
+                        isRecyclerViewNotScrollable() ||
+                        maxVisibility != View.VISIBLE
                 ){
             super.setVisibility(INVISIBLE);
         } else {
