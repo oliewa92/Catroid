@@ -173,4 +173,8 @@ public enum MusicalInstrument {
 	public int getProgram() {
 		return program;
 	}
+
+	public byte getInstrumentByte() {
+		return (byte) program;
+	}
 }

@@ -49,7 +49,7 @@ public class TrackRowView extends TableRow {
 	private NoteName noteName;
 
 	public TrackRowView(Context context) {
-		this(context, MusicalBeat.BEAT_4_4, false, NoteName.C1, null, null);
+		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null, null);
 	}
 
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, GridRow gridRow,
