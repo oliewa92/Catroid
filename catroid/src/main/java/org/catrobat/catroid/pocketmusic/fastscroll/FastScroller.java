@@ -38,7 +38,6 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.fastscroll.viewprovider.DefaultScrollerViewProvider;
 import org.catrobat.catroid.pocketmusic.fastscroll.viewprovider.ScrollerViewProvider;
-import org.catrobat.catroid.pocketmusic.fastscroll.viewprovider.VisibilityAnimationManager;
 
 public class FastScroller extends LinearLayout {
 
@@ -97,7 +96,9 @@ public class FastScroller extends LinearLayout {
 	public void setRecyclerView(RecyclerView recyclerView) {
 		this.recyclerView = recyclerView;
 
-		if(recyclerView.getAdapter() instanceof SectionTitleProvider) titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
+		if (recyclerView.getAdapter() instanceof SectionTitleProvider) {
+			titleProvider = (SectionTitleProvider) recyclerView.getAdapter();
+		}
 		recyclerView.addOnScrollListener(scrollListener);
 	}
 
@@ -122,14 +123,22 @@ public class FastScroller extends LinearLayout {
 	}
 
 	private void applyStyling() {
-		if(bubbleColor!=STYLE_NONE) setBackgroundTint(bubbleTextView, bubbleColor);
-		if(handleColor!=STYLE_NONE) setBackgroundTint(handle, handleColor);
-		if(bubbleTextAppearance!=STYLE_NONE) TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
+		if (bubbleColor != STYLE_NONE) {
+			setBackgroundTint(bubbleTextView, bubbleColor);
+		}
+		if (handleColor != STYLE_NONE) {
+			setBackgroundTint(handle, handleColor);
+		}
+		if (bubbleTextAppearance != STYLE_NONE) {
+			TextViewCompat.setTextAppearance(bubbleTextView, bubbleTextAppearance);
+		}
 	}
 
 	private void setBackgroundTint(View view, int color) {
 		final Drawable background = DrawableCompat.wrap(view.getBackground());
-		if(background==null) return;
+		if (background == null) {
+			return;
+		}
 		DrawableCompat.setTint(background.mutate(), color);
 		view.setBackground(background);
 	}
@@ -140,7 +149,9 @@ public class FastScroller extends LinearLayout {
 			public boolean onTouch(View v, MotionEvent event) {
 				requestDisallowInterceptTouchEvent(true);
 				if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-					if(titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) viewProvider.onHandleGrabbed();
+					if (titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) {
+						viewProvider.onHandleGrabbed();
+					}
 					manuallyChangingPosition = true;
 					float relativePos = getRelativeTouchPosition(event);
 					setScrollerPosition(relativePos);
@@ -148,7 +159,9 @@ public class FastScroller extends LinearLayout {
 					return true;
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					manuallyChangingPosition = false;
-					if(titleProvider!=null) viewProvider.onHandleReleased();
+					if (titleProvider != null) {
+						viewProvider.onHandleReleased();
+					}
 					return true;
 				}
 				return false;
@@ -156,8 +169,8 @@ public class FastScroller extends LinearLayout {
 		});
 	}
 
-	private float getRelativeTouchPosition(MotionEvent event){
-		if(isVertical()){
+	private float getRelativeTouchPosition(MotionEvent event) {
+		if (isVertical()) {
 			float yInParent = event.getRawY() - Utils.getViewRawY(handle);
 			return yInParent / (getHeight() - handle.getHeight());
 		} else {
@@ -167,15 +180,19 @@ public class FastScroller extends LinearLayout {
 	}
 
 	private void setRecyclerViewPosition(float relativePos) {
-		if (recyclerView == null) return;
+		if (recyclerView == null) {
+			return;
+		}
 		int itemCount = recyclerView.getAdapter().getItemCount();
 		int targetPos = (int) Utils.getValueInRange(0, itemCount - 1, (int) (relativePos * (float) itemCount));
 		recyclerView.scrollToPosition(targetPos);
-		if(titleProvider!=null && bubbleTextView!=null) bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
+		if (titleProvider != null && bubbleTextView != null) {
+			bubbleTextView.setText(titleProvider.getSectionTitle(targetPos));
+		}
 	}
 
 	void setScrollerPosition(float relativePos) {
-		if(isVertical()) {
+		if (isVertical()) {
 			bubble.setY(Utils.getValueInRange(
 					0,
 					getHeight() - bubble.getHeight(),
@@ -200,12 +217,12 @@ public class FastScroller extends LinearLayout {
 		}
 	}
 
-	public boolean isVertical(){
+	public boolean isVertical() {
 		return scrollerOrientation == VERTICAL;
 	}
 
 	boolean shouldUpdateHandlePosition() {
-		return handle!=null && !manuallyChangingPosition && recyclerView.getChildCount() > 0;
+		return handle != null && !manuallyChangingPosition && recyclerView.getChildCount() > 0;
 	}
 
 	ScrollerViewProvider getViewProvider() {

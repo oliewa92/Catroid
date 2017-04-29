@@ -41,9 +41,9 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 	@Override
 	public void onScrollStateChanged(RecyclerView recyclerView, int newScrollState) {
 		super.onScrollStateChanged(recyclerView, newScrollState);
-		if(newScrollState== RecyclerView.SCROLL_STATE_IDLE && oldScrollState!= RecyclerView.SCROLL_STATE_IDLE){
+		if (newScrollState== RecyclerView.SCROLL_STATE_IDLE && oldScrollState!= RecyclerView.SCROLL_STATE_IDLE) {
 			scroller.getViewProvider().onScrollFinished();
-		} else if(newScrollState!= RecyclerView.SCROLL_STATE_IDLE && oldScrollState== RecyclerView.SCROLL_STATE_IDLE){
+		} else if(newScrollState!= RecyclerView.SCROLL_STATE_IDLE && oldScrollState== RecyclerView.SCROLL_STATE_IDLE) {
 			scroller.getViewProvider().onScrollStarted();
 		}
 		oldScrollState = newScrollState;
@@ -51,14 +51,14 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
 	@Override
 	public void onScrolled(RecyclerView rv, int dx, int dy) {
-		if(scroller.shouldUpdateHandlePosition()) {
+		if (scroller.shouldUpdateHandlePosition()) {
 			updateHandlePosition(rv);
 		}
 	}
 
 	void updateHandlePosition(RecyclerView rv) {
 		float relativePos;
-		if(scroller.isVertical()) {
+		if (scroller.isVertical()) {
 			int offset = rv.computeVerticalScrollOffset();
 			int extent = rv.computeVerticalScrollExtent();
 			int range = rv.computeVerticalScrollRange();
@@ -74,7 +74,9 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 	}
 
 	public void notifyListeners(float relativePos){
-		for(ScrollerListener listener : listeners) listener.onScroll(relativePos);
+		for (ScrollerListener listener : listeners) {
+			listener.onScroll(relativePos);
+		}
 	}
 
 	public interface ScrollerListener {

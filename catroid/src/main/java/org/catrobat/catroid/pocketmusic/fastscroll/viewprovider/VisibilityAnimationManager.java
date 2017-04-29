@@ -58,7 +58,9 @@ public class VisibilityAnimationManager {
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				super.onAnimationEnd(animation);
-				if(!wasCanceled) view.setVisibility(View.INVISIBLE);
+				if (!wasCanceled) {
+					view.setVisibility(View.INVISIBLE);
+				}
 				wasCanceled = false;
 			}
 
@@ -87,8 +89,8 @@ public class VisibilityAnimationManager {
 	}
 
 	protected void updatePivot() {
-		view.setPivotX(pivotXRelative*view.getMeasuredWidth());
-		view.setPivotY(pivotYRelative*view.getMeasuredHeight());
+		view.setPivotX(pivotXRelative * view.getMeasuredWidth());
+		view.setPivotY(pivotYRelative * view.getMeasuredHeight());
 	}
 
 	public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
@@ -103,27 +105,27 @@ public class VisibilityAnimationManager {
 			this.view = view;
 		}
 
-		public AbsBuilder<T> withShowAnimator(@AnimatorRes int showAnimatorResource){
+		public AbsBuilder<T> withShowAnimator(@AnimatorRes int showAnimatorResource) {
 			this.showAnimatorResource = showAnimatorResource;
 			return this;
 		}
 
-		public AbsBuilder<T> withHideAnimator(@AnimatorRes int hideAnimatorResource){
+		public AbsBuilder<T> withHideAnimator(@AnimatorRes int hideAnimatorResource) {
 			this.hideAnimatorResource = hideAnimatorResource;
 			return this;
 		}
 
-		public AbsBuilder<T> withHideDelay(int hideDelay){
+		public AbsBuilder<T> withHideDelay(int hideDelay) {
 			this.hideDelay = hideDelay;
 			return this;
 		}
 
-		public AbsBuilder<T> withPivotX(float pivotX){
+		public AbsBuilder<T> withPivotX(float pivotX) {
 			this.pivotX = pivotX;
 			return this;
 		}
 
-		public AbsBuilder<T> withPivotY(float pivotY){
+		public AbsBuilder<T> withPivotY(float pivotY) {
 			this.pivotY = pivotY;
 			return this;
 		}
@@ -137,10 +139,8 @@ public class VisibilityAnimationManager {
 			super(view);
 		}
 
-		public VisibilityAnimationManager build(){
+		public VisibilityAnimationManager build() {
 			return new VisibilityAnimationManager(view, showAnimatorResource, hideAnimatorResource, pivotX, pivotY, hideDelay);
 		}
-
 	}
-
 }

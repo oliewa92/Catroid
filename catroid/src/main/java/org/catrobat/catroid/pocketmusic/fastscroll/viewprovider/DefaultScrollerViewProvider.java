@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.pocketmusic.fastscroll.Utils;
 
 
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
@@ -72,7 +71,8 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
 	@Override
 	public int getBubbleOffset() {
-		return (int) (getScroller().isVertical() ? ((float)handle.getHeight()/2f)-bubble.getHeight() : ((float)handle.getWidth()/2f)-bubble.getWidth());
+		return (int) (getScroller().isVertical() ? ((float) handle.getHeight() / 2f) - bubble.getHeight() : ((float)
+				handle.getWidth() / 2f) - bubble.getWidth());
 	}
 
 	@Override
