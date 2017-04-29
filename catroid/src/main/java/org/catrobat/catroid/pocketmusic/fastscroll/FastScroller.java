@@ -18,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.	If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.catrobat.catroid.pocketmusic.fastscroll;
@@ -149,7 +149,7 @@ public class FastScroller extends LinearLayout {
 			public boolean onTouch(View v, MotionEvent event) {
 				requestDisallowInterceptTouchEvent(true);
 				if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-					if (titleProvider!=null && event.getAction() == MotionEvent.ACTION_DOWN) {
+					if (titleProvider != null && event.getAction() == MotionEvent.ACTION_DOWN) {
 						viewProvider.onHandleGrabbed();
 					}
 					manuallyChangingPosition = true;

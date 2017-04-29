@@ -42,7 +42,8 @@ public class VisibilityAnimationManager {
 	private float pivotXRelative;
 	private float pivotYRelative;
 
-	protected VisibilityAnimationManager(final View view, @AnimatorRes int showAnimator, @AnimatorRes int hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay){
+	protected VisibilityAnimationManager(final View view, @AnimatorRes int showAnimator, @AnimatorRes int
+			hideAnimator, float pivotXRelative, float pivotYRelative, int hideDelay) {
 		this.view = view;
 		this.pivotXRelative = pivotXRelative;
 		this.pivotYRelative = pivotYRelative;
@@ -74,7 +75,7 @@ public class VisibilityAnimationManager {
 		updatePivot();
 	}
 
-	public void show(){
+	public void show() {
 		hideAnimator.cancel();
 		if (view.getVisibility() == View.INVISIBLE) {
 			view.setVisibility(View.VISIBLE);
@@ -83,7 +84,7 @@ public class VisibilityAnimationManager {
 		}
 	}
 
-	public void hide(){
+	public void hide() {
 		updatePivot();
 		hideAnimator.start();
 	}
@@ -93,7 +94,7 @@ public class VisibilityAnimationManager {
 		view.setPivotY(pivotYRelative * view.getMeasuredHeight());
 	}
 
-	public static abstract class AbsBuilder<T extends VisibilityAnimationManager> {
+	public abstract static class AbsBuilder<T extends VisibilityAnimationManager> {
 		protected final View view;
 		protected int showAnimatorResource = R.animator.fastscroll__default_show;
 		protected int hideAnimatorResource = R.animator.fastscroll__default_hide;

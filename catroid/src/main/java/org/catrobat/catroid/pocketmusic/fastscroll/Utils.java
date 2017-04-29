@@ -25,7 +25,7 @@ package org.catrobat.catroid.pocketmusic.fastscroll;
 
 import android.view.View;
 
-public class Utils {
+public final class Utils {
 
 	private Utils() {
 

@@ -83,8 +83,8 @@ public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 
 	@Override
 	protected ViewBehavior provideBubbleBehavior() {
-		return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withHideDelay(0).withPivotX
-				(0.5f).withPivotY
-				(1f).build());
+		return new DefaultBubbleBehavior(new VisibilityAnimationManager.Builder(bubble).withHideDelay(0)
+				.withPivotX(0.5f)
+				.withPivotY(1f).build());
 	}
 }

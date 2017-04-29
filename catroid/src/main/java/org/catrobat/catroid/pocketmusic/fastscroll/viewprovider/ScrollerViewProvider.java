@@ -63,52 +63,52 @@ public abstract class ScrollerViewProvider {
 	@Nullable
 	protected abstract ViewBehavior provideBubbleBehavior();
 
-	protected ViewBehavior getHandleBehavior(){
-		if (handleBehavior==null) {
+	protected ViewBehavior getHandleBehavior() {
+		if (handleBehavior == null) {
 			handleBehavior = provideHandleBehavior();
 		}
 		return handleBehavior;
 	}
 
-	protected ViewBehavior getBubbleBehavior(){
-		if (bubbleBehavior==null) {
+	protected ViewBehavior getBubbleBehavior() {
+		if (bubbleBehavior == null) {
 			bubbleBehavior = provideBubbleBehavior();
 		}
 		return bubbleBehavior;
 	}
 
-	public void onHandleGrabbed(){
-		if (getHandleBehavior()!=null) {
+	public void onHandleGrabbed() {
+		if (getHandleBehavior() != null) {
 			getHandleBehavior().onHandleGrabbed();
 		}
-		if (getBubbleBehavior()!=null) {
+		if (getBubbleBehavior() != null) {
 			getBubbleBehavior().onHandleGrabbed();
 		}
 	}
 
-	public void onHandleReleased(){
-		if (getHandleBehavior()!=null) {
+	public void onHandleReleased() {
+		if (getHandleBehavior() != null) {
 			getHandleBehavior().onHandleReleased();
 		}
-		if (getBubbleBehavior()!=null) {
+		if (getBubbleBehavior() != null) {
 			getBubbleBehavior().onHandleReleased();
 		}
 	}
 
-	public void onScrollStarted(){
-		if (getHandleBehavior()!=null) {
+	public void onScrollStarted() {
+		if (getHandleBehavior() != null) {
 			getHandleBehavior().onScrollStarted();
 		}
-		if (getBubbleBehavior()!=null) {
+		if (getBubbleBehavior() != null) {
 			getBubbleBehavior().onScrollStarted();
 		}
 	}
 
-	public void onScrollFinished(){
-		if (getHandleBehavior()!=null) {
+	public void onScrollFinished() {
+		if (getHandleBehavior() != null) {
 			getHandleBehavior().onScrollFinished();
 		}
-		if (getBubbleBehavior()!=null) {
+		if (getBubbleBehavior() != null) {
 			getBubbleBehavior().onScrollFinished();
 		}
 	}
