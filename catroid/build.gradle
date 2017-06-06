@@ -86,7 +86,7 @@ android {
     }
     productFlavors {
         catroid {
-            applicationId 'org.catrobat.catroid'
+            applicationId 'org.catrobat.catroid.testapk'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
             buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -193,7 +193,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        applicationId 'org.catrobat.catroid'
+        applicationId 'org.catrobat.catroid.testapk'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 35
