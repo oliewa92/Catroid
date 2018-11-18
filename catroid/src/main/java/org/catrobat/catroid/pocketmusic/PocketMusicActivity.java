@@ -26,6 +26,8 @@ package org.catrobat.catroid.pocketmusic;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.ProjectManager;
@@ -59,10 +61,12 @@ public class PocketMusicActivity extends BaseActivity {
 
 	private Project project;
 	private TactScrollRecyclerView tactScroller;
+	private boolean deleteMode = false;
 
 	private MidiNotePlayer midiDriver;
 
-	private FastScroller fastScroller;
+	private ScrollController scrollController;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,10 +117,10 @@ public class PocketMusicActivity extends BaseActivity {
 		tactScroller.setTrack(project.getTrack(getString(R.string.pocket_music_default_track_name)),
 				project.getBeatsPerMinute());
 
-		fastScroller = findViewById(R.id.fastscroll);
+		FastScroller fastScroller = findViewById(R.id.fastscroll);
 		fastScroller.setRecyclerView(tactScroller);
 
-		new ScrollController(content, tactScroller, project.getBeatsPerMinute());
+		scrollController = new ScrollController(content, tactScroller, project.getBeatsPerMinute());
 	}
 
 	private Project createEmptyProject() throws IOException {
@@ -175,10 +179,48 @@ public class PocketMusicActivity extends BaseActivity {
 		super.finish();
 	}
 
+	private void leaveDeleteMode() {
+		getSupportActionBar().setTitle(project.getName());
+		scrollController.setPlaybuttonEnabled(true);
+		deleteMode = false;
+	}
+
+	private void enterDeleteMode() {
+		getSupportActionBar().setTitle(getString(R.string.am_delete));
+		scrollController.setPlaybuttonEnabled(false);
+		deleteMode = true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_pocketmusic_activity, menu);
+		menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				if (deleteMode) {
+					leaveDeleteMode();
+				} else {
+					enterDeleteMode();
+				}
+				return false;
+			}
+		});
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (deleteMode) {
+			leaveDeleteMode();
+		} else {
+			super.onBackPressed();
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (midiDriver != null) {
+		if (midiDriver != null && !deleteMode) {
 			midiDriver.start();
 		}
 	}

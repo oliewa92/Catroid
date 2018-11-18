@@ -26,6 +26,9 @@ package org.catrobat.catroid.pocketmusic;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -37,6 +40,7 @@ import org.catrobat.catroid.pocketmusic.ui.AnimatorUpdateCallback;
 import org.catrobat.catroid.pocketmusic.ui.PianoView;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
+import org.catrobat.catroid.pocketmusic.ui.TrackView;
 
 public class ScrollController {
 
@@ -125,5 +129,15 @@ public class ScrollController {
 				}
 			}
 		});
+	}
+
+	public void setPlaybuttonEnabled(boolean enabled) {
+		playButton.setEnabled(enabled);
+		scrollingView.setDeleteMode(!enabled);
+		scrollingView.setDeleteOverlay();
+		if (scrollingAnimator.isRunning()) {
+			scrollingAnimator.end();
+			scrollingAnimator.setupStartValues();
+		}
 	}
 }

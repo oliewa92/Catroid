@@ -24,7 +24,9 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -57,6 +59,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 	private TrackGrid trackGrid;
 	private ViewGroup.LayoutParams tactViewParams = new ViewGroup.LayoutParams(0, 0);
 	private boolean isPlaying;
+	private boolean deleteMode;
 	private int tactCount;
 	private TactSnapper tactSnapper;
 	private AnimatorUpdateCallback animatorUpdateCallback;
@@ -89,7 +92,8 @@ public class TactScrollRecyclerView extends RecyclerView {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent e) {
-		return e.getActionMasked() != MotionEvent.ACTION_SCROLL && isPlaying || super.onInterceptTouchEvent(e);
+		return e.getActionMasked() != MotionEvent.ACTION_SCROLL &&
+				(isPlaying || deleteMode) || super.onInterceptTouchEvent(e);
 	}
 
 	@Override
@@ -136,6 +140,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 			tactViewParams.height = MeasureSpec.getSize(heightSpec);
 			animatorUpdateCallback.updateCallback(tactCount, getMeasuredWidth());
 		}
+
 		for (int i = 0; i < getChildCount(); i++) {
 			getChildAt(i).getLayoutParams().width = tactViewParams.width;
 			getChildAt(i).getLayoutParams().height = tactViewParams.height;
@@ -143,8 +148,40 @@ public class TactScrollRecyclerView extends RecyclerView {
 		super.onMeasure(widthSpec, heightSpec);
 	}
 
+	public void setDeleteOverlay() {
+		Drawable drawable = ContextCompat.getDrawable(getContext(),
+				R.drawable.default_jumping_sumo_project_sound);
+
+		int startLeft = tactViewParams.width / 2 - 100;
+		int startTop = tactViewParams.height / 2 - 100;
+		int endRight = startLeft + 200;
+		int endBottom = startTop + 200;
+
+		for (int i = 0; i < getChildCount(); i++) {
+			View view = getChildAt(i);
+			if (view == null || getAdapter().getItemViewType(getChildLayoutPosition(view)) != TACT_VIEW_TYPE) {
+				return;
+			}
+			view.getOverlay().clear();
+			if (drawable != null) {
+				drawable.setBounds(startLeft, startTop, endRight, endBottom);
+				if (deleteMode) {
+					view.getOverlay().add(drawable);
+				}
+			}
+		}
+	}
+
 	public int getTactViewWidth() {
 		return tactViewParams.width;
+	}
+
+	public boolean isDeleteMode() {
+		return deleteMode;
+	}
+
+	public void setDeleteMode(boolean deleteMode) {
+		this.deleteMode = deleteMode;
 	}
 
 	private class TactAdapter extends RecyclerView.Adapter<TactViewHolder> implements SectionTitleProvider {
@@ -237,6 +274,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 					}
 				}
 				scrollStartedByUser = false;
+				setDeleteOverlay();
 				super.onScrollStateChanged(recyclerView, newState);
 			}
 		}
