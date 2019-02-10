@@ -23,13 +23,19 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiRunnable;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSignals;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.ui.fragment.PianoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,17 +66,29 @@ public class PianoView extends ViewGroup {
 	public PianoView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
 		margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+		int correspondingMidiValue = NoteName.DEFAULT_NOTE_NAME.getMidi();
 		for (int i = 0; i < WHITE_KEY_COUNT; i++) {
+			while (NoteName.getNoteNameFromMidiValue(correspondingMidiValue).isSigned()) {
+				correspondingMidiValue++;
+			}
 			View whiteButton = new View(context);
 			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_white));
+			whiteButton.setTag(correspondingMidiValue);
 			whitePianoKeys.add(whiteButton);
 			addView(whiteButton);
+			correspondingMidiValue++;
 		}
+		correspondingMidiValue = NoteName.DEFAULT_NOTE_NAME.getMidi();
 		for (int i = 0; i < BLACK_KEY_COUNT; i++) {
+			while (!NoteName.getNoteNameFromMidiValue(correspondingMidiValue).isSigned()) {
+				correspondingMidiValue++;
+			}
 			View blackButton = new View(context);
 			blackButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_black));
+			blackButton.setTag(correspondingMidiValue);
 			blackPianoKeys.add(blackButton);
 			addView(blackButton);
+			correspondingMidiValue++;
 		}
 		currentHeight = 0;
 	}
@@ -187,6 +205,43 @@ public class PianoView extends ViewGroup {
 		} else {
 			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), note.isSigned() ? R.color.solid_black : R
 					.color.solid_white));
+		}
+	}
+
+	public void updateButtonColors(NoteName... activeNotes) {
+		for (View view : blackPianoKeys) {
+			view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.solid_black));
+		}
+		for (View view : whitePianoKeys) {
+			view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.solid_white));
+		}
+		for (NoteName noteName : activeNotes) {
+			setButtonColor(noteName, true);
+		}
+	}
+
+	public void makeButtonsClickable(final MidiNotePlayer midiNotePlayer, final PianoFragment pianoFragment) {
+		OnClickListener playValueListener = new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				int midiValueOfView = (Integer) view.getTag();
+				NoteName clickedNote = NoteName.getNoteNameFromMidiValue(midiValueOfView);
+				Handler h = new Handler(Looper.getMainLooper());
+				MidiRunnable midiRunnable = new MidiRunnable(MidiSignals.NOTE_ON,
+						clickedNote, 250, h,
+						midiNotePlayer, null);
+				h.post(midiRunnable);
+				updateButtonColors(clickedNote);
+				if (pianoFragment != null) {
+					pianoFragment.updateFieldValue(midiValueOfView);
+				}
+			}
+		};
+		for (View buttons : whitePianoKeys) {
+			buttons.setOnClickListener(playValueListener);
+		}
+		for (View buttons : blackPianoKeys) {
+			buttons.setOnClickListener(playValueListener);
 		}
 	}
 

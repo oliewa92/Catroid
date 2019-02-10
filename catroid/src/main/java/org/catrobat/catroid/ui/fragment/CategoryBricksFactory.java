@@ -119,6 +119,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -407,6 +408,10 @@ public class CategoryBricksFactory {
 					BrickValues.PHIRO_DURATION));
 		}
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
+		if (SettingsFragment.isMidiBrickSharedPreferenceEnabled(context)) {
+			soundBrickList.add(new PlayNoteForBeatsBrick());
+		}
 
 		return soundBrickList;
 	}

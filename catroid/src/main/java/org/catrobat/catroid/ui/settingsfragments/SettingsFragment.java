@@ -70,6 +70,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
+	public static final String SETTINGS_SHOW_MIDI_BRICKS = "setting_midi_bricks";
 	public static final String SETTINGS_SHOW_RASPI_BRICKS = "setting_raspi_bricks";
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
@@ -133,6 +134,12 @@ public class SettingsFragment extends PreferenceFragment {
 			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
+		}
+
+		if (!BuildConfig.FEATURE_MIDI_BRICKS) {
+			CheckBoxPreference midiPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_MIDI_BRICKS);
+			midiPreference.setEnabled(false);
+			screen.removePreference(midiPreference);
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
@@ -301,6 +308,12 @@ public class SettingsFragment extends PreferenceFragment {
 		editor.commit();
 	}
 
+	public static void setMidiBrickSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_MIDI_BRICKS, value);
+		editor.commit();
+	}
+
 	public static void setEmbroiderySharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_EMBROIDERY_BRICKS, value);
@@ -315,6 +328,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isMidiBrickSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_MIDI_BRICKS, context);
 	}
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {

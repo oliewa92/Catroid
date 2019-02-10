@@ -26,6 +26,8 @@ import android.media.MediaPlayer;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class SoundManager {
 
 	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;
+	private MidiNotePlayer midiNotePlayer;
 
 	public SoundManager() {
 	}
@@ -145,6 +148,18 @@ public class SoundManager {
 				mediaPlayer.stop();
 			}
 		}
+	}
+
+	private void initalizeMidiPlayer() {
+		if (midiNotePlayer == null) {
+			midiNotePlayer = new MidiNotePlayer();
+			midiNotePlayer.start();
+		}
+	}
+
+	public MidiNotePlayer getMidiNotePlayer() {
+		initalizeMidiPlayer();
+		return midiNotePlayer;
 	}
 
 	@VisibleForTesting
